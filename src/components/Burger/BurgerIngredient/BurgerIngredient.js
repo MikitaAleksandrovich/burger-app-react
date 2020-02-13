@@ -5,7 +5,6 @@ import './BurgerIngredient.css';
 
 
 class BurgerIngredient extends Component {
-   
 
     render() {
 
