@@ -10,18 +10,22 @@ const withErrorHandler = (WrappedComponent, axios) => {
             error: null,
         }
 
-        componentDidMount() {
-
+        componentWillMount() {
             // Handle request errors with axios 
-            axios.interceptors.request.use(req => {
+            this.reqInterceptor = axios.interceptors.request.use(req => {
                 this.setState({ error: null });
                 return req;
             });
 
             // Handle response errors with axios
-            axios.interceptors.response.use(res => res, error => {
+            this.resInterceptor = axios.interceptors.response.use(res => res, error => {
                 this.setState({ error: error });
             });
+        }
+
+        componentWillUnmount() {
+            axios.interceptors.request.eject(this.reqInterceptor);
+            axios.interceptors.response.eject(this.resInterceptor);
         }
 
         //Hide Modal on click and set error to null
@@ -35,7 +39,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
                     <Modal
                         show={this.state.error}
                         modalClosed={this.errorConfirmedHandler}>
-                        {/* Display error only if there is an error */}
+                        {/* Display error message only if there is an error */}
                         {this.state.error ? this.state.error.message : null}
 
                     </Modal>
