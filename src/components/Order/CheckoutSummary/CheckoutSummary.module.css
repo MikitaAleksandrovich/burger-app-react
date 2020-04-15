@@ -1,0 +1,16 @@
+.container {
+    text-align: center;
+    width: 80%;
+    margin: auto;
+}
+
+.burgerSummary {
+    width: 100%;
+    margin: auto;
+}
+
+@media (min-width: 600px) {
+    .container {
+        width: 500px;
+    }
+}
