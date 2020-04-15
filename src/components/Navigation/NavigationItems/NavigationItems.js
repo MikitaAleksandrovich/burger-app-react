@@ -1,18 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import NavigationItem from './NavigationItem/NavigationItem';
 
-import './NavigationItems.css';
+import styles from './NavigationItems.module.css';
 
 const navigationItems = (props) => (
-    <ul className="NavigationItems">
-        <Link to="/">
-            <NavigationItem active>Burger Builder</NavigationItem>
-        </Link>
-        <Link to="checkout">
-            <NavigationItem>Checkout</NavigationItem>
-        </Link>
+    <ul className={styles.container}>
+        <NavigationItem link="/" exact>Burger Builder</NavigationItem>
+        <NavigationItem link="/orders">Orders</NavigationItem>
     </ul>
 );
 
