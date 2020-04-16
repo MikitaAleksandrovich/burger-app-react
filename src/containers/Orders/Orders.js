@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Order from '../../components/Order/Order/Order';
 
 import axios from '../../axios-orders';
-import styles from './Orders.module.css';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 class Orders extends Component {

@@ -8,11 +8,6 @@
     box-sizing: border-box;
 }
 
-.input {
-    display: block;
-    margin: 10px auto;
-}
-
 @media(min-width: 600px) {
     .container {
         width: 500px;
