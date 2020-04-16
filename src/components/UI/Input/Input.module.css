@@ -26,3 +26,8 @@
     background-color: rgb(235, 235, 235);
 }
 
+.invalid {
+    border: 1px solid red;
+    background-color: rgb(255, 178, 169) !important;
+}
+
