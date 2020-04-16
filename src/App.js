@@ -7,7 +7,7 @@ import Orders from './containers/Orders/Orders';
 
 
 const App = () => (
-  <Router>
+  <Router basename="/burger-app-react">
     <div>
       <Layout>
         <Switch>
