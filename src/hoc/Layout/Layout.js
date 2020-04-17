@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-import './Layout.css';
+import styles from './Layout.module.css';
 
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
@@ -18,7 +18,7 @@ class Layout extends Component {
     }
 
     sideDrawerToggleHandler = () => {
-        this.setState( (prevState) => {
+        this.setState((prevState) => {
             return {
                 showSideDrawer: !prevState.showSideDrawer,
             }
@@ -32,16 +32,16 @@ class Layout extends Component {
         return (
             <Fragment>
 
-                <Toolbar drawerToggleClicked={this.sideDrawerToggleHandler}/>
+                <Toolbar drawerToggleClicked={this.sideDrawerToggleHandler} />
 
-                <SideDrawer 
+                <SideDrawer
                     open={showSideDrawer}
                     closed={this.sideDrawerClosedHandler} />
 
-                <main className="content">
+                <main className={styles.content}>
                     {this.props.children}
                 </main>
-                
+
             </Fragment>
         )
     }
