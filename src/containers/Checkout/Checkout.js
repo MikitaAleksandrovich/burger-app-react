@@ -9,7 +9,7 @@ import ContactData from './ContactData/ContactData';
 const checkout = (props) => {
 
     const checkoutCancelledHandler = () => {
-        this.props.history.goBack();
+        props.history.goBack();
     }
 
     const checkoutContinuedHandler = () => {
