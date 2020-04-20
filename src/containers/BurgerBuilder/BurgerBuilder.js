@@ -16,8 +16,10 @@ class BurgerBuilder extends Component {
 
     state = {
         purchasing: false,
-        loading: false,
-        error: false,
+    }
+
+    componentDidMount() {
+        this.props.onInitIngredients();
     }
 
     // Check if there are any or just one ingredient to then continue and make an order
@@ -47,9 +49,7 @@ class BurgerBuilder extends Component {
 
     render() {
 
-        const { purchasing,
-            loading,
-            error } = this.state;
+        const { purchasing } = this.state;
 
         const disabledInfo = {
             ...this.props.ingredients
@@ -62,7 +62,7 @@ class BurgerBuilder extends Component {
 
         let orderSummary = null;
 
-        let burger = error ? <p style={{ textAlign: 'center', fontSize: '2.5rem' }}>Ingredients can't be loaded!</p> : <Spinner />;
+        let burger = this.props.error ? <p style={{ textAlign: 'center', fontSize: '2.5rem' }}>Ingredients can't be loaded!</p> : <Spinner />;
 
         if (this.props.ingredients) {
             burger = (
@@ -84,10 +84,6 @@ class BurgerBuilder extends Component {
                 price={this.props.totalPrice} />
         };
 
-        if (loading) {
-            orderSummary = <Spinner />;
-        }
-
         return (
             <Fragment>
                 <Modal show={purchasing} modalClosed={this.purchaseCancelHandler}>
@@ -103,6 +99,7 @@ const mapStateToProps = state => {
     return {
         ingredients: state.ingredients,
         totalPrice: state.totalPrice,
+        error: state.error,
     }
 };
 
@@ -110,6 +107,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onIngredientAdded: (ingName) => dispatch(burgerBuilderActions.addIngredient(ingName)),
         onIngredientRemoved: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName)),
+        onInitIngredients: () => dispatch(burgerBuilderActions.initIngredients()),
     }
 };
 
