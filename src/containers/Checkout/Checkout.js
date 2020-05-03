@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
@@ -16,18 +16,22 @@ const checkout = (props) => {
         props.history.replace('/checkout/contact-data');
     }
 
-    return (
-        <div>
-            <CheckoutSummary
-                ingredients={props.ingredients}
-                checkoutCancelled={checkoutCancelledHandler}
-                checkoutContinued={checkoutContinuedHandler} />
+    let summary = <Redirect to="/" />
 
-            <Route
-                path={props.match.url + '/contact-data'}
-                component={ContactData} />
-        </div>
-    )
+    if (props.ingredients) {
+        summary =  <div>
+                        <CheckoutSummary
+                            ingredients={props.ingredients}
+                            checkoutCancelled={checkoutCancelledHandler}
+                            checkoutContinued={checkoutContinuedHandler} />
+                        <Route
+                            path={props.match.url + '/contact-data'}
+                            component={ContactData} />
+                   </div>
+    }
+
+
+    return summary;
 };
 
 const mapStateToProps = state => {
