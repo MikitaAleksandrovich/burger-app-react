@@ -30,13 +30,12 @@ const checkout = (props) => {
                    </div>
     }
 
-
     return summary;
 };
 
 const mapStateToProps = state => {
     return {
-        ingredients: state.ingredients,
+        ingredients: state.burgerBuilder.ingredients,
     }
 }
 
