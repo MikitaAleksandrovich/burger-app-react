@@ -22,8 +22,6 @@ export const setIngredients = (ingredients) => {
     }
 };
 
-console.log('lksadv');
-
 export const fetchIngredientsFailed = () => {
     return {
         type: actionTypes.FETCH_INGREDIENTS_FAILED
