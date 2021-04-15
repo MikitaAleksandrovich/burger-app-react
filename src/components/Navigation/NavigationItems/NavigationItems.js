@@ -8,6 +8,7 @@ const navigationItems = (props) => (
     <ul className={styles.container}>
         <NavigationItem link="/" exact>Burger Builder</NavigationItem>
         <NavigationItem link="/orders">Orders</NavigationItem>
+        <NavigationItem link="/auth">Authenticate</NavigationItem>
     </ul>
 );
 
