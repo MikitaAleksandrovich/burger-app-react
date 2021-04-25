@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import axios from '../../axios-orders';
@@ -11,9 +11,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
-
 class BurgerBuilder extends Component {
-
     state = {
         purchasing: false,
     }
@@ -35,7 +33,11 @@ class BurgerBuilder extends Component {
     }
 
     purchaseHandler = () => {
-        this.setState({ purchasing: true });
+        if (this.props.isAuthenticated) {
+            this.setState({ purchasing: true });
+        } else {
+            this.props.history.push('/auth');
+        }
     }
 
     purchaseCancelHandler = () => {
@@ -67,7 +69,7 @@ class BurgerBuilder extends Component {
 
         if (this.props.ingredients) {
             burger = (
-                <Fragment>
+                <>
                     <Burger ingredients={this.props.ingredients} />
                     <BuildControls
                         ingredientAdded={this.props.onIngredientAdded}
@@ -75,8 +77,9 @@ class BurgerBuilder extends Component {
                         purchasable={this.updatePurchaseState(this.props.ingredients)}
                         ordered={this.purchaseHandler}
                         disabled={disabledInfo}
+                        isAuthenticated={this.props.isAuthenticated}
                         price={this.props.totalPrice} />
-                </Fragment>
+                </>
             );
             orderSummary = <OrderSummary
                 ingredients={this.props.ingredients}
@@ -86,12 +89,12 @@ class BurgerBuilder extends Component {
         };
 
         return (
-            <Fragment>
+            <>
                 <Modal show={purchasing} modalClosed={this.purchaseCancelHandler}>
                     {orderSummary}
                 </Modal>
                 {burger}
-            </Fragment>
+            </>
         );
     };
 };
@@ -101,6 +104,7 @@ const mapStateToProps = state => {
         ingredients: state.burgerBuilder.ingredients,
         totalPrice: state.burgerBuilder.totalPrice,
         error: state.burgerBuilder.error,
+        isAuthenticated: state.auth.token !== null,
     }
 };
 

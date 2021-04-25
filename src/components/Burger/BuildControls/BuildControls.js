@@ -13,7 +13,6 @@ const controls = [
 
 
 const buildControls = (props) => (
-
     <div className={styles.buildControls}>
         <p>Current price: <strong>{props.price.toFixed(2)} $</strong></p>
         {controls.map(ctrl => (
@@ -28,7 +27,8 @@ const buildControls = (props) => (
         <button className={styles.orderButton}
             disabled={!props.purchasable}
             onClick={props.ordered}>
-            ORDER NOW
+            {props.isAuthenticated ? 'ORDER NOW' : 'SIGN UP TO ORDER'}
+            
         </button>
     </div>
 );
