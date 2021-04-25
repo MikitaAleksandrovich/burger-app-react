@@ -7,7 +7,6 @@ import Backdrop from '../../UI/Backdrop/Backdrop';
 import './SideDrawer.css';
 
 const sideDrawer = (props) => {
-
     let attachedClasses = ["SideDrawer", "Close"];
 
     if (props.open) {
@@ -22,7 +21,7 @@ const sideDrawer = (props) => {
                     <Logo />
                 </div>
                 <nav>
-                    <NavigationItems />
+                    <NavigationItems isAuthenticated={props.isAuthenticated} />
                 </nav>
             </div>
         </Fragment>

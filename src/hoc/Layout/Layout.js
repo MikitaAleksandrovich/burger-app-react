@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import styles from './Layout.module.css';
 
@@ -26,25 +27,30 @@ class Layout extends Component {
     }
 
     render() {
-
         const { showSideDrawer } = this.state;
+        const { isAuthenticated } = this.props;
 
         return (
-            <Fragment>
-
-                <Toolbar drawerToggleClicked={this.sideDrawerToggleHandler} />
-
+            <>
+                <Toolbar 
+                    isAuthenticated={isAuthenticated} 
+                    drawerToggleClicked={this.sideDrawerToggleHandler} />
                 <SideDrawer
+                    isAuthenticated={isAuthenticated} 
                     open={showSideDrawer}
                     closed={this.sideDrawerClosedHandler} />
-
                 <main className={styles.content}>
                     {this.props.children}
                 </main>
-
-            </Fragment>
+            </>
         )
+    };
+};
+
+const mapStateToProps = state => {
+    return {
+         isAuthenticated: state.auth.token !== null,
     }
 };
 
-export default Layout;
+export default connect(mapStateToProps, null)(Layout);
