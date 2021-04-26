@@ -6,6 +6,7 @@ import { createStore,
          compose,
          combineReducers } from 'redux';
 import thunk from 'redux-thunk';
+import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
 import './index.css';
@@ -40,7 +41,9 @@ const store = createStore(rootReducer, composeEnhancers(
 
 const app = (
     <Provider store={store}>
-        <App />
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
     </Provider>
 )
 
