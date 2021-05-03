@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { updateObject } from '../../shared/utils';
 
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
@@ -81,15 +82,13 @@ class Auth extends Component {
     inputChangedHandler = (event, controlName) => {
         // Search and update targeted input in cloned controls form
         const { controls } = this.state;
-        const updatedControls = {
-            ...controls,
-            [controlName]: {
-                ...controls[controlName],
+        const updatedControls = updateObject(controls, {
+            [controlName]: updateObject(controls[controlName], {
                 value: event.target.value,
                 valid: this.checkValidity(event.target.value, controls[controlName].validation),
                 touched: true,
-            },
-        };
+            })
+        });
         this.setState({ controls: updatedControls });
     };
 

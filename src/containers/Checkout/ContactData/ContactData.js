@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { updateObject } from '../../../shared/utils';
 
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
@@ -140,16 +141,15 @@ class ContactData extends Component {
 
     inputChangedHandler = (event, inputIdentifier) => {
         // Search for targeted input in cloned orderForm
-        const updatedOrderForm = {
-            ...this.state.orderForm,
-        }
-        const updatedFormElement = {
-            ...updatedOrderForm[inputIdentifier]
-        };
-        updatedFormElement.value = event.target.value;
-        updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
-        updatedFormElement.touched = true;
-        updatedOrderForm[inputIdentifier] = updatedFormElement;
+        const { orderForm } = this.state;
+        const updatedFormElement = updateObject(orderForm[inputIdentifier], {
+            value: event.target.value,
+            valid: this.checkValidity(event.target.value, orderForm[inputIdentifier].validation),
+            touched: true,
+        });
+        const updatedOrderForm = updateObject(orderForm, {
+            [inputIdentifier]: updatedFormElement,
+        });
 
         //Check if the all inputs in the form is passed though validation
         let formIsValid = true;
