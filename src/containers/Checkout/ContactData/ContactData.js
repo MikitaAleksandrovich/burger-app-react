@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateObject } from '../../../shared/utils';
+import { updateObject, checkValidity } from '../../../shared/utils';
 
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
@@ -79,6 +79,7 @@ class ContactData extends Component {
                 value: '',
                 validation: {
                     required: true,
+                    isEmail: true,
                 },
                 valid: false,
                 touched: false,
@@ -97,27 +98,6 @@ class ContactData extends Component {
             },
         },
         formIsValid: false
-    }
-
-    // Input's validation func
-    checkValidity(value, rules) {
-        let isValid = true;
-
-        // Check for empty input
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        // Check for min length of the inputed value
-        if (rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid;
-        }
-
-        if (rules.maxLength) {
-            isValid = value.length <= rules.maxLength && isValid;
-        }
-
-        return isValid;
     }
 
     orderHandler = (event) => {
@@ -144,7 +124,7 @@ class ContactData extends Component {
         const { orderForm } = this.state;
         const updatedFormElement = updateObject(orderForm[inputIdentifier], {
             value: event.target.value,
-            valid: this.checkValidity(event.target.value, orderForm[inputIdentifier].validation),
+            valid: checkValidity(event.target.value, orderForm[inputIdentifier].validation),
             touched: true,
         });
         const updatedOrderForm = updateObject(orderForm, {

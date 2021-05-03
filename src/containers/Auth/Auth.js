@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { updateObject } from '../../shared/utils';
+import { updateObject, checkValidity } from '../../shared/utils';
 
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
@@ -52,40 +52,13 @@ class Auth extends Component {
         };
     };
 
-    // Input's validation func
-    checkValidity(value, rules) {
-        let isValid = true;
-    
-        // Check for empty input
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        // Check for valid email
-        if (rules.isEmail) {
-            const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-            isValid = pattern.test(value) && isValid;
-        }
-    
-        // Check for min length of the inputed value
-        if (rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid;
-        }
-    
-        if (rules.maxLength) {
-            isValid = value.length <= rules.maxLength && isValid;
-        }
-    
-        return isValid;
-    };
-
     inputChangedHandler = (event, controlName) => {
         // Search and update targeted input in cloned controls form
         const { controls } = this.state;
         const updatedControls = updateObject(controls, {
             [controlName]: updateObject(controls[controlName], {
                 value: event.target.value,
-                valid: this.checkValidity(event.target.value, controls[controlName].validation),
+                valid: checkValidity(event.target.value, controls[controlName].validation),
                 touched: true,
             })
         });
