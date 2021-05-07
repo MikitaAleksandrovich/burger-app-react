@@ -11,9 +11,13 @@ export {
 } from './order';  
 
 export {
+    authStart,
     auth,
+    authSuccess,  
+    authFail,  
     logout,
     setAuthRedirectPath,
+    checkAuthTimeout,
     authCheckState,
     logoutSucced,
 } from './auth';
