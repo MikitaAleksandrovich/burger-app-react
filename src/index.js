@@ -14,7 +14,7 @@ import './index.css';
 import burgerBuilderReducer from './store/reducers/burgerBuilder';
 import orderReducer from './store/reducers/order';
 import authReducer from './store/reducers/auth';
-import { watchAuth, wathcBurgerBuilder } from './store/sagas/index';
+import { watchAuth, wathcBurgerBuilder, watchOrder } from './store/sagas/index';
 
 import registerServiceWorker from './registerServiceWorker';
 
@@ -23,8 +23,8 @@ const logger = store => {
         return action => {
             const result = next(action);
             return result;
-        }
-    }
+        };
+    };
 };
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? 
@@ -44,6 +44,7 @@ const store = createStore(rootReducer, composeEnhancers(
 
 sagaMiddleware.run(watchAuth);
 sagaMiddleware.run(wathcBurgerBuilder);
+sagaMiddleware.run(watchOrder);
 
 const app = (
     <Provider store={store}>
@@ -51,7 +52,7 @@ const app = (
             <App />
         </BrowserRouter>
     </Provider>
-)
+);
 
 ReactDOM.render(app, document.getElementById('root'));
 registerServiceWorker();

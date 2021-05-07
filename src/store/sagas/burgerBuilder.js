@@ -3,7 +3,7 @@ import axios from '../../axios-orders';
 
 import * as actions from '../actions/index';
 
-export function* initIngredientsSaga() {
+export function* initIngredientsSaga(action) {
     try {
         const response = yield axios.get('/ingredients.json');
         yield put(actions.setIngredients(response.data));
