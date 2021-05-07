@@ -32,4 +32,3 @@ export const initIngredients = () => {
         type: actionTypes.INIT_INGREDIENTS,
     }
 };
-
