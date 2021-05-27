@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import Layout from "./hoc/Layout/Layout";
 import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
 import Logout from "./containers/Auth/Logout/Logout";
-import Spinner from './components/UI/Spinner/Spinner';
+import Spinner from "./components/UI/Spinner/Spinner";
 import * as actions from "./store/actions/index";
 
 const Checkout = React.lazy(() => {
@@ -27,7 +27,7 @@ const App = (props) => {
 
   let routes = (
     <Switch>
-      <Route path="/auth" render={() => <Auth />} />
+      <Route path="/auth" render={(props) => <Auth {...props} />} />
       <Route path="/" exact component={BurgerBuilder} />
       <Redirect to="/" />
     </Switch>
@@ -37,9 +37,9 @@ const App = (props) => {
     routes = (
       <Switch>
         <Route path="/" exact component={BurgerBuilder} />
-        <Route path="/checkout" render={() => <Checkout />} />
-        <Route path="/orders" render={() => <Orders />} />
-        <Route path="/auth" render={() => <Auth />} />
+        <Route path="/checkout" render={(props) => <Checkout {...props} />} />
+        <Route path="/orders" render={(props) => <Orders {...props} />} />
+        <Route path="/auth" render={(props) => <Auth {...props} />} />
         <Route path="/logout" component={Logout} />
         <Redirect to="/" />
       </Switch>
