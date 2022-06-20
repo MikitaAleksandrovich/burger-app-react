@@ -17,6 +17,7 @@ export const FETCH_ORDERS_START = 'FETCH_ORDERS_START';
 export const FETCH_ORDERS = 'FETCH_ORDERS';
 export const FETCH_ORDERS_SUCCESS = 'FETCH_ORDERS_SUCCESS';
 export const FETCH_ORDERS_FAIL = 'FETCH_ORDERS_FAIL';
+export const DELETE_ORDER = 'DELETE_ORDER';
 
 // Auth actions
 export const AUTH_USER = 'AUTH_USER';

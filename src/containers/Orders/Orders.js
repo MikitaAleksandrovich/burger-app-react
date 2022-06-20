@@ -19,6 +19,7 @@ const Orders = (props) => {
         key={order.id}
         ingredients={order.ingredients}
         price={order.price}
+        id={order.id}
       />
     ));
   }

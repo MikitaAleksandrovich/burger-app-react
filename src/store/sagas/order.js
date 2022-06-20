@@ -30,3 +30,11 @@ export function* fetchOrdersSaga(action) {
         yield put(actions.fetchOrdersFail(error));
     }
 };
+
+export function* deleteOrderSaga(action) {
+    try {
+        const response = yield axios.delete('orders.json?id=', + action.orderId);
+    } catch(error) {
+        console.log(error);
+    }
+}

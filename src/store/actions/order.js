@@ -62,3 +62,12 @@ export const fetchOrders = (token, userId) => {
         userId,
     };
 };
+
+
+export const deleteOrder = (orderId) => {
+    console.log(orderId);
+    return {
+        type: actionTypes.DELETE_ORDER,
+        orderId,
+    }
+};
