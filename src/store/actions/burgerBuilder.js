@@ -1,5 +1,13 @@
 import * as actionTypes from './actionTypes';
 
+const DEFAULT_INGREDIENTS = {
+    salad: 0,
+    bacon: 0,
+    cheese: 0,
+    meat: 0,
+    garlicSauce: 0,
+};
+
 export const addIngredient = (ingredientName) => {
     return {
         type: actionTypes.ADD_INGREDIENT,
@@ -15,9 +23,14 @@ export const removeIngredient = (ingredientName) => {
 };
 
 export const setIngredients = (ingredients) => {
+    const normalizedIngredients = {
+        ...DEFAULT_INGREDIENTS,
+        ...(ingredients || {}),
+    };
+
     return {
         type: actionTypes.SET_INGREDIENTS,
-        ingredients: ingredients,
+        ingredients: normalizedIngredients,
     }
 };
 

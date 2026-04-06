@@ -8,11 +8,20 @@ const initialState = {
     building: false,
 };
 
+const defaultIngredientsState = {
+    salad: 0,
+    bacon: 0,
+    cheese: 0,
+    meat: 0,
+    garlicSauce: 0,
+};
+
 const INGREDIENT_PRICES = {
     salad: 0.5,
     cheese: 0.4,
     meat: 1.3,
     bacon: 0.7,
+    garlicSauce: 0.6,
 };
 
 const addIngredient = (state, action) => {
@@ -38,8 +47,9 @@ const removeIngredient = (state, action) => {
 };
 
 const setIngredients = (state, action) => {
+    const orderedIngredients = updateObject(defaultIngredientsState, action.ingredients || {});
     return updateObject(state, {
-        ingredients: action.ingredients,
+        ingredients: orderedIngredients,
         totalPrice: 4,
         error: false,
         building: false,
@@ -61,5 +71,3 @@ const reducer = (state = initialState, action) => {
 };
 
 export default reducer;
-
-
