@@ -11,12 +11,24 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
+const DEFAULT_INGREDIENTS = {
+  salad: 0,
+  bacon: 0,
+  cheese: 0,
+  meat: 0,
+  garlicSauce: 0,
+};
+
 const BurgerBuilder = (props) => {
   const [isPurchasing, setIsPurchasing] = useState(false);
 
   useEffect(() => {
     props.onInitIngredients();
   }, []);
+
+  const normalizedIngredients = props.ingredients
+    ? { ...DEFAULT_INGREDIENTS, ...props.ingredients }
+    : null;
 
   // Check if there are any or just one ingredient to then continue and make an order
   const updatePurchaseState = (ingredients) => {
@@ -48,9 +60,9 @@ const BurgerBuilder = (props) => {
     props.history.push("/checkout");
   };
 
-  const disabledInfo = {
-    ...props.ingredients,
-  };
+  const disabledInfo = normalizedIngredients
+    ? { ...normalizedIngredients }
+    : { ...DEFAULT_INGREDIENTS };
 
   for (let key in disabledInfo) {
     disabledInfo[key] = disabledInfo[key] <= 0;
@@ -67,14 +79,14 @@ const BurgerBuilder = (props) => {
     <Spinner />
   );
 
-  if (props.ingredients) {
+  if (normalizedIngredients) {
     burger = (
       <>
-        <Burger ingredients={props.ingredients} />
+        <Burger ingredients={normalizedIngredients} />
         <BuildControls
           ingredientAdded={props.onIngredientAdded}
           ingredientRemoved={props.onIngredientRemoved}
-          purchasable={updatePurchaseState(props.ingredients)}
+          purchasable={updatePurchaseState(normalizedIngredients)}
           ordered={purchaseHandler}
           disabled={disabledInfo}
           isAuthenticated={props.isAuthenticated}
@@ -84,7 +96,7 @@ const BurgerBuilder = (props) => {
     );
     orderSummary = (
       <OrderSummary
-        ingredients={props.ingredients}
+        ingredients={normalizedIngredients}
         purchaseCancelled={purchaseCancelHandler}
         purchaseContinued={purchaseContinueHandler}
         price={props.totalPrice}
