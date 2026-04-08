@@ -11,6 +11,19 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
+const ensureMexicalChilli = (ingredients) => {
+  if (!ingredients) {
+    return null;
+  }
+  if (typeof ingredients.mexicalChilli === "number") {
+    return ingredients;
+  }
+  return {
+    ...ingredients,
+    mexicalChilli: 0,
+  };
+};
+
 const BurgerBuilder = (props) => {
   const [isPurchasing, setIsPurchasing] = useState(false);
 
@@ -18,8 +31,13 @@ const BurgerBuilder = (props) => {
     props.onInitIngredients();
   }, []);
 
+  const normalizedIngredients = ensureMexicalChilli(props.ingredients);
+
   // Check if there are any or just one ingredient to then continue and make an order
   const updatePurchaseState = (ingredients) => {
+    if (!ingredients) {
+      return false;
+    }
     const sum = Object.keys(ingredients)
       .map((ingKey) => {
         return ingredients[ingKey];
@@ -48,12 +66,12 @@ const BurgerBuilder = (props) => {
     props.history.push("/checkout");
   };
 
-  const disabledInfo = {
-    ...props.ingredients,
-  };
+  const disabledInfo = {};
 
-  for (let key in disabledInfo) {
-    disabledInfo[key] = disabledInfo[key] <= 0;
+  if (normalizedIngredients) {
+    for (let key in normalizedIngredients) {
+      disabledInfo[key] = normalizedIngredients[key] <= 0;
+    }
   }
   // {salad: true, meat: false etc...}
 
@@ -67,14 +85,14 @@ const BurgerBuilder = (props) => {
     <Spinner />
   );
 
-  if (props.ingredients) {
+  if (normalizedIngredients) {
     burger = (
       <>
-        <Burger ingredients={props.ingredients} />
+        <Burger ingredients={normalizedIngredients} />
         <BuildControls
           ingredientAdded={props.onIngredientAdded}
           ingredientRemoved={props.onIngredientRemoved}
-          purchasable={updatePurchaseState(props.ingredients)}
+          purchasable={updatePurchaseState(normalizedIngredients)}
           ordered={purchaseHandler}
           disabled={disabledInfo}
           isAuthenticated={props.isAuthenticated}
@@ -84,7 +102,7 @@ const BurgerBuilder = (props) => {
     );
     orderSummary = (
       <OrderSummary
-        ingredients={props.ingredients}
+        ingredients={normalizedIngredients}
         purchaseCancelled={purchaseCancelHandler}
         purchaseContinued={purchaseContinueHandler}
         price={props.totalPrice}
