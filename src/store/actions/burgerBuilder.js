@@ -1,5 +1,13 @@
 import * as actionTypes from './actionTypes';
 
+const enhanceIngredientsWithChilliPepper = (ingredients) => {
+    const safeIngredients = ingredients || {};
+    return {
+        chilliPepper: 0,
+        ...safeIngredients,
+    };
+};
+
 export const addIngredient = (ingredientName) => {
     return {
         type: actionTypes.ADD_INGREDIENT,
@@ -17,7 +25,7 @@ export const removeIngredient = (ingredientName) => {
 export const setIngredients = (ingredients) => {
     return {
         type: actionTypes.SET_INGREDIENTS,
-        ingredients: ingredients,
+        ingredients: enhanceIngredientsWithChilliPepper(ingredients),
     }
 };
 
