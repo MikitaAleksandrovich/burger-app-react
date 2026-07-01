@@ -13,10 +13,23 @@ const INGREDIENT_PRICES = {
     cheese: 0.4,
     meat: 1.3,
     bacon: 0.7,
+    chilliPepper: 0.6,
+};
+
+const DEFAULT_INGREDIENT_STATE = {
+    salad: 0,
+    cheese: 0,
+    meat: 0,
+    bacon: 0,
+    chilliPepper: 0,
+};
+
+const normalizeIngredients = (ingredients) => {
+    return updateObject(DEFAULT_INGREDIENT_STATE, ingredients || {});
 };
 
 const addIngredient = (state, action) => {
-    const updatedIngredientOnAdd = {[action.ingredientName]: state.ingredients[action.ingredientName] + 1};
+    const updatedIngredientOnAdd = { [action.ingredientName]: state.ingredients[action.ingredientName] + 1 };
     const updatedIngredientsOnAdd = updateObject(state.ingredients, updatedIngredientOnAdd);
     const updatedStateOnAdd = {
         ingredients: updatedIngredientsOnAdd,
@@ -27,7 +40,7 @@ const addIngredient = (state, action) => {
 };
 
 const removeIngredient = (state, action) => {
-    const updatedIngredientOnRemove = {[action.ingredientName]: state.ingredients[action.ingredientName] - 1};
+    const updatedIngredientOnRemove = { [action.ingredientName]: state.ingredients[action.ingredientName] - 1 };
     const updatedIngredientsOnRemove = updateObject(state.ingredients, updatedIngredientOnRemove);
     const updatedStateOnRemove = {
         ingredients: updatedIngredientsOnRemove,
@@ -39,7 +52,7 @@ const removeIngredient = (state, action) => {
 
 const setIngredients = (state, action) => {
     return updateObject(state, {
-        ingredients: action.ingredients,
+        ingredients: normalizeIngredients(action.ingredients),
         totalPrice: 4,
         error: false,
         building: false,
@@ -61,5 +74,3 @@ const reducer = (state = initialState, action) => {
 };
 
 export default reducer;
-
-

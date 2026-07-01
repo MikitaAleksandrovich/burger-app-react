@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import axios from "../../axios-orders";
-import * as actions from "../../store/actions/index";
+import * * actions from "../../store/actions/index";
 
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
@@ -48,9 +48,7 @@ const BurgerBuilder = (props) => {
     props.history.push("/checkout");
   };
 
-  const disabledInfo = {
-    ...props.ingredients,
-  };
+  const disabledInfo = props.ingredients ? { ...props.ingredients } : {};
 
   for (let key in disabledInfo) {
     disabledInfo[key] = disabledInfo[key] <= 0;

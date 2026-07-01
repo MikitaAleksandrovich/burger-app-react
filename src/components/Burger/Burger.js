@@ -4,12 +4,19 @@ import styles from './Burger.module.css';
 
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 
+const INGREDIENT_RENDER_ORDER = ['salad', 'chilliPepper', 'bacon', 'cheese', 'meat'];
 
 const burger = (props) => {
+    const ingredients = props.ingredients || {};
+    const ingredientKeys = Object.keys(ingredients);
+    const orderedIngredientKeys = [
+        ...INGREDIENT_RENDER_ORDER.filter((key) => ingredientKeys.includes(key)),
+        ...ingredientKeys.filter((key) => !INGREDIENT_RENDER_ORDER.includes(key)),
+    ];
 
-    let transformedIngredients = Object.keys(props.ingredients).
-        map((ingKey) => {
-            return [...Array(props.ingredients[ingKey])].map((_, i) => {
+    let transformedIngredients = orderedIngredientKeys
+        .map((ingKey) => {
+            return [...Array(ingredients[ingKey])].map((_, i) => {
                 return <BurgerIngredient key={ingKey + i} type={ingKey} />;
             });
         })
@@ -18,7 +25,7 @@ const burger = (props) => {
         }, []);
 
     if (transformedIngredients.length === 0) {
-        transformedIngredients = <p>Please, start adding ingredients!</p>
+        transformedIngredients = <p>Please, start adding ingredients!</p>;
     }
 
     return (
