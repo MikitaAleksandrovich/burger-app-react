@@ -1,9 +1,11 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utils';
 
+const BASE_PRICE = 4;
+
 const initialState = {
     ingredients: null,
-    totalPrice: 4,
+    totalPrice: BASE_PRICE,
     error: false,
     building: false,
 };
@@ -13,10 +15,23 @@ const INGREDIENT_PRICES = {
     cheese: 0.4,
     meat: 1.3,
     bacon: 0.7,
+    redHotChilliPepper: 0.9,
+};
+
+const DEFAULT_INGREDIENT_STATE = {
+    salad: 0,
+    redHotChilliPepper: 0,
+    bacon: 0,
+    cheese: 0,
+    meat: 0,
+};
+
+const normalizeIngredients = (ingredients) => {
+    return updateObject(DEFAULT_INGREDIENT_STATE, ingredients || {});
 };
 
 const addIngredient = (state, action) => {
-    const updatedIngredientOnAdd = {[action.ingredientName]: state.ingredients[action.ingredientName] + 1};
+    const updatedIngredientOnAdd = { [action.ingredientName]: state.ingredients[action.ingredientName] + 1 };
     const updatedIngredientsOnAdd = updateObject(state.ingredients, updatedIngredientOnAdd);
     const updatedStateOnAdd = {
         ingredients: updatedIngredientsOnAdd,
@@ -27,7 +42,7 @@ const addIngredient = (state, action) => {
 };
 
 const removeIngredient = (state, action) => {
-    const updatedIngredientOnRemove = {[action.ingredientName]: state.ingredients[action.ingredientName] - 1};
+    const updatedIngredientOnRemove = { [action.ingredientName]: state.ingredients[action.ingredientName] - 1 };
     const updatedIngredientsOnRemove = updateObject(state.ingredients, updatedIngredientOnRemove);
     const updatedStateOnRemove = {
         ingredients: updatedIngredientsOnRemove,
@@ -39,8 +54,8 @@ const removeIngredient = (state, action) => {
 
 const setIngredients = (state, action) => {
     return updateObject(state, {
-        ingredients: action.ingredients,
-        totalPrice: 4,
+        ingredients: normalizeIngredients(action.ingredients),
+        totalPrice: BASE_PRICE,
         error: false,
         building: false,
     });
@@ -61,5 +76,3 @@ const reducer = (state = initialState, action) => {
 };
 
 export default reducer;
-
-

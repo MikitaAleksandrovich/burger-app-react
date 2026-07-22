@@ -11,14 +11,21 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
-const BurgerBuilder = (props) => {
+const INGREDIENT_ORDER = [
+  "salad",
+  "redHotChilliPepper",
+  "bacon",
+  "cheese",
+  "meat",
+];
+
+export const BurgerBuilder = (props) => {
   const [isPurchasing, setIsPurchasing] = useState(false);
 
   useEffect(() => {
     props.onInitIngredients();
-  }, []);
+  }, [props.onInitIngredients]);
 
-  // Check if there are any or just one ingredient to then continue and make an order
   const updatePurchaseState = (ingredients) => {
     const sum = Object.keys(ingredients)
       .map((ingKey) => {
@@ -48,14 +55,22 @@ const BurgerBuilder = (props) => {
     props.history.push("/checkout");
   };
 
-  const disabledInfo = {
-    ...props.ingredients,
-  };
+  const disabledInfo = INGREDIENT_ORDER.reduce((info, ingredient) => {
+    const quantity =
+      props.ingredients && props.ingredients[ingredient]
+        ? props.ingredients[ingredient]
+        : 0;
+    info[ingredient] = quantity <= 0;
+    return info;
+  }, {});
 
-  for (let key in disabledInfo) {
-    disabledInfo[key] = disabledInfo[key] <= 0;
+  if (props.ingredients) {
+    Object.keys(props.ingredients).forEach((key) => {
+      if (typeof disabledInfo[key] === "undefined") {
+        disabledInfo[key] = props.ingredients[key] <= 0;
+      }
+    });
   }
-  // {salad: true, meat: false etc...}
 
   let orderSummary = null;
 
@@ -70,7 +85,10 @@ const BurgerBuilder = (props) => {
   if (props.ingredients) {
     burger = (
       <>
-        <Burger ingredients={props.ingredients} />
+        <Burger
+          ingredients={props.ingredients}
+          ingredientOrder={INGREDIENT_ORDER}
+        />
         <BuildControls
           ingredientAdded={props.onIngredientAdded}
           ingredientRemoved={props.onIngredientRemoved}
