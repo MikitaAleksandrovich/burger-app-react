@@ -1,5 +1,13 @@
 import * as actionTypes from './actionTypes';
 
+const ensureRedHotChilliPepper = (ingredients) => {
+    const normalizedIngredients = ingredients ? { ...ingredients } : {};
+    if (typeof normalizedIngredients.redHotChilliPepper !== 'number') {
+        normalizedIngredients.redHotChilliPepper = 0;
+    }
+    return normalizedIngredients;
+};
+
 export const addIngredient = (ingredientName) => {
     return {
         type: actionTypes.ADD_INGREDIENT,
@@ -17,7 +25,7 @@ export const removeIngredient = (ingredientName) => {
 export const setIngredients = (ingredients) => {
     return {
         type: actionTypes.SET_INGREDIENTS,
-        ingredients: ingredients,
+        ingredients: ensureRedHotChilliPepper(ingredients),
     }
 };
 
